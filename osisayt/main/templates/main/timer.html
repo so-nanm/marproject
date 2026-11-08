@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FORTUNA 812 TOUR</title>
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+</head>
+<body>
+    <main class="page">
+        
+        <section class="card">
+            
+            <h1>Жди<br>мраз</h1>
+            <div class="divider"></div>
+
+            {% if is_finished %}
+                <section class="message" aria-live="polite">
+                    <p class="eyebrow">Момент настал</p>
+                    <p>{{ message }}</p>
+                </section>
+            {% else %}
+                <p class="caption">До следуйщей подсказки осталось</p>
+
+                <div class="timer" id="timer"
+                     data-remaining-ms="{{ remaining_ms }}">
+                    <div class="time-unit">
+                        <span id="days">00</span>
+                        <small>дней</small>
+                    </div>
+                    <span class="colon">:</span>
+                    <div class="time-unit">
+                        <span id="hours">00</span>
+                        <small>часов</small>
+                    </div>
+                    <span class="colon">:</span>
+                    <div class="time-unit">
+                        <span id="minutes">00</span>
+                        <small>минут</small>
+                    </div>
+                    <span class="colon">:</span>
+                    <div class="time-unit">
+                        <span id="seconds">00</span>
+                        <small>секунд</small>
+                    </div>
+                </div>
+
+                <section class="message hidden" id="message" aria-live="polite">
+                    <p class="eyebrow">Обратный отсчёт</p>
+                    <p>{{ message }}</p>
+                </section>
+            {% endif %}
+        </section>
+
+        
+    </main>
+
+    {% if not is_finished %}
+    <script>
+        const timer = document.getElementById("timer");
+        const message = document.getElementById("message");
+        const initialMs = Number(timer.dataset.remainingMs);
+        const deadline = performance.now() + initialMs;
+
+        const pad = (value) => String(value).padStart(2, "0");
+
+        function updateTimer() {
+            const remaining = Math.max(0, deadline - performance.now());
+
+            if (remaining <= 0) {
+                timer.classList.add("hidden");
+                message.classList.remove("hidden");
+                return;
+            }
+
+            let seconds = Math.floor(remaining / 1000);
+            const days = Math.floor(seconds / 86400);
+            seconds %= 86400;
+            const hours = Math.floor(seconds / 3600);
+            seconds %= 3600;
+            const minutes = Math.floor(seconds / 60);
+            seconds %= 60;
+
+            document.getElementById("days").textContent = pad(days);
+            document.getElementById("hours").textContent = pad(hours);
+            document.getElementById("minutes").textContent = pad(minutes);
+            document.getElementById("seconds").textContent = pad(seconds);
+
+            window.setTimeout(updateTimer, 250);
+        }
+
+        updateTimer();
+    </script>
+    {% endif %}
+</body>
+</html>

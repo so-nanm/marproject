@@ -1,10 +1,6 @@
+ll_env/
 venv/
-.pylintrc
 __pycache__/
-
-.vscode
-.idea
-.env
-
+*.py[cod]
 db.sqlite3
-media/
+staticfiles/
