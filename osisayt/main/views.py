@@ -17,10 +17,10 @@ MESSAGE = (
 
 def timer_page(request):
     start_at = timezone.make_aware(
-        datetime(2026, 11, 10, 0, 0),
+        datetime(2026, 11, 11, 0, 0),
         timezone.get_current_timezone(),
     )
-    end_at = start_at + timedelta(days=7)
+    end_at = start_at + timedelta(days=3)
     now = timezone.now()
 
     is_finished = now >= end_at
