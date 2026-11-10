@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ['sonanm://pythonanywhere.com']
+ALLOWED_HOSTS = ['://pythonanywhere.com']
 
 
 
